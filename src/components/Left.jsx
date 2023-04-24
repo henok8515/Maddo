@@ -9,7 +9,7 @@ function Left() {
     <div
       className="
        text-center
-    max-w-sm rounded overflow-hidden w-1/3 shadow-lg items-center  h-screen flex flex-col justify-between "
+    max-w-sm rounded overflow-hidden w-1/3 shadow-lg items-center  flex flex-col justify-between "
     >
       <div className="flex-2-500">
         <Typography className="pb-4 text-blue-700 font-semibold" variant="h3">
@@ -44,8 +44,8 @@ function Left() {
           <PeopleAltOutlinedIcon />
         </button>
       </div>
-      <div className="w-full px-6 pt-4 pb-2">
-        <button className="flex justify-between w-full bg-transparent mb-8 hover:bg-red-700 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-none hover:border-transparent rounded">
+      <div className="w-full flex justify-center items-center px-6 pt-4 pb-2">
+        <button className=" flex justify-between w-4/5 bg-transparent mb-8 hover:bg-red-700 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-none hover:border-transparent rounded">
           <LogoutOutlinedIcon />
           <Typography variant="h6">Log out</Typography>
         </button>
