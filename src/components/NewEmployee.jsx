@@ -1,29 +1,44 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
-function NewEmployee({ setAddMode }) {
+function NewEmployee({ setAddMode, setUsers, users }) {
   const [newUser, setNewUser] = useState({
+    id: uuidv4(),
     name: "",
     email: "",
     position: "",
-    Age: "",
-    gender: {
-      male: "",
-      female: "",
-    },
+    age: "",
+    gender: "",
   });
-  const handleChange = () => {
-    console.log("hello world");
+
+  const userCollection = collection(db, "users");
+
+  const createUser = async () => {
+    await addDoc(userCollection, newUser);
   };
+
+  const handleChange = (e) => {
+    setNewUser({ ...newUser, [e.target.name]: e.target.value });
+  };
+  console.log(users, "users");
+
   const handleSubmit = (e) => {
+    // setEmployee((employees) => [...employees, newUser]);
+    console.log(users, "users");
     e.preventDefault();
+    createUser();
+    setAddMode(false);
+    setUsers([...users, newUser]);
   };
   return (
-    <div class="bg-gray-100">
-      <div class="container mx-auto py-8">
+    <div class="relative z-10">
+      <div class="container  mx-auto py-8 absolute">
         <h1 class="text-2xl font-bold mb-6 text-center">Add New Employee</h1>
         <form
           onSubmit={handleSubmit}
-          class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md"
+          class=" z-10  w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md"
         >
           <div className="flex justify-end w-full">
             <button
@@ -105,89 +120,24 @@ function NewEmployee({ setAddMode }) {
             />
           </div>
           <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="age">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="password"
+            >
               Age
             </label>
             <input
               required={true}
               onChange={handleChange}
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-              type="date"
+              type="number"
               id="age"
-              value={newUser.Age}
+              value={newUser.age}
               name="age"
-              placeholder="Age"
+              placeholder="age"
             />
           </div>
 
-          <div class="flex gap-10">
-            <div class="inline-flex items-center">
-              <label
-                class="relative flex cursor-pointer items-center rounded-full p-3"
-                for="ripple-on"
-                data-ripple-dark="true"
-              >
-                <input
-                  required={true}
-                  onChange={handleChange}
-                  id="ripple-on"
-                  name="ripple"
-                  value={newUser.gender.male}
-                  type="radio"
-                  class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
-                  checked
-                />
-                <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-3.5 w-3.5"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                  >
-                    <circle data-name="ellipse" cx="8" cy="8" r="8"></circle>
-                  </svg>
-                </div>
-              </label>
-              <label
-                class="mt-px cursor-pointer select-none font-light text-gray-700"
-                for="ripple-on"
-              >
-                Male
-              </label>
-            </div>
-            <div class="inline-flex items-center">
-              <label
-                class="relative flex cursor-pointer items-center rounded-full p-3"
-                for="ripple-off"
-              >
-                <input
-                  required={true}
-                  onChange={handleChange}
-                  id="ripple-off"
-                  name="ripple"
-                  value={newUser.gender.female}
-                  type="radio"
-                  class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
-                />
-                <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-3.5 w-3.5"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                  >
-                    <circle data-name="ellipse" cx="8" cy="8" r="8"></circle>
-                  </svg>
-                </div>
-              </label>
-              <label
-                class="mt-px cursor-pointer select-none font-light text-gray-700"
-                for="ripple-off"
-              >
-                Female
-              </label>
-            </div>
-          </div>
           <button
             class="w-full bg-indigo-500 text-white text-lg font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
             type="submit"
