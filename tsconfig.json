@@ -1,21 +1,18 @@
 {
-  "compileOnSave": true,
-  "compilerOptions": {
-      "outDir": "./built",
-      "allowJs": true,
-      "target": "es5",
-      "allowUnreachableCode": false,
-      "noImplicitReturns": true,
-      "noImplicitAny": true,
-      "typeRoots": [ "./typings" ],
-      "outFile": "./built/combined.js"
-  },
-  "include": [
-      "./**/*"
-  ],
-  "exclude": [
-      "./plugins/**/*",
-      "./typings/**/*",
-      "./built/**/*" // This is what fixed it!
-  ]
+    "compilerOptions": {
+        "module": "commonjs",
+        "sourceMap": true,
+        "target": "es6",
+        "outDir": "./build",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "experimentalDecorators": true,
+    "include": [
+        "app/**/*.ts, tsx"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }
