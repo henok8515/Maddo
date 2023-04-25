@@ -11,6 +11,7 @@ function NewEmployee({ setAddMode, setUsers, users }) {
     position: "",
     age: "",
     gender: "",
+    salary: "",
   });
 
   const userCollection = collection(db, "users");
@@ -135,6 +136,24 @@ function NewEmployee({ setAddMode, setUsers, users }) {
               value={newUser.age}
               name="age"
               placeholder="age"
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="password"
+            >
+              Salary
+            </label>
+            <input
+              required={true}
+              onChange={handleChange}
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+              type="money"
+              id="salary"
+              value={newUser.salary}
+              name="salary"
+              placeholder="salary"
             />
           </div>
 
