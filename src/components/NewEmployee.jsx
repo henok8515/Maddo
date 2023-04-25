@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 function NewEmployee({ setAddMode, setUsers, users }) {
   const [newUser, setNewUser] = useState({
-    id: uuidv4(),
     name: "",
     email: "",
     position: "",
