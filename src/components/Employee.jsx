@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import Button from "./Button";
 
 import NewEmployee from "./NewEmployee";
-import { updateDoc, deleteDoc, doc } from "firebase/firestore";
+import {
+  updateDoc,
+  deleteDoc,
+  doc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
+
 import { db } from "../firebase-config";
 
 function Employee({ users, setUsers }) {
@@ -11,36 +19,56 @@ function Employee({ users, setUsers }) {
   const [updatedUser, setUpdatedUser] = useState({
     name: "",
     email: "",
+    position: "",
     age: "",
     gender: "",
-    position: "",
     salary: "",
   });
 
   const [editMode, setEditMode] = useState(false);
   console.log(updatedUser, "Updated user");
+  const userCollection = collection(db, "users");
+
+  const getUsers = async () => {
+    const data = await getDocs(userCollection);
+    setUsers(
+      data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    );
+  };
 
   const deleteUser = async (id) => {
-    // if (window.confirm("Are you sure you want to delete")) {
-    //   db.ref()
-    //     .child(`users/${id}`)
-    //     .remove((err) => {
-    //       console.log(err, "delete err");
-    //     });
-    // }
-    const userDoc = doc(db, "users", id);
-    await deleteDoc(userDoc);
-    setUsers([...users]);
+    console.log(id, "id");
+
+    const userDoc = await doc(db, "users", id);
+    if (window.confirm("Are you sure you want to delete")) {
+      await deleteDoc(userDoc);
+      getUsers();
+    }
   };
   const handleChange = (e) => {
     setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
   };
   const updateUser = async (id) => {
-    const userDoc = doc(db, "users", id);
-    const newFields = {
-      name: updateUser.name,
-    };
-    await updateDoc(userDoc, newFields);
+    console.log(id, "id update");
+    try {
+      console.log("i ran");
+      const userDoc = doc(db, "users", id);
+      const newfields = {
+        name: updateUser.name,
+        email: updateUser.email,
+        position: updateUser.position,
+        age: updateUser.age,
+        gender: updateUser.gender,
+        salary: updateUser.salary,
+      };
+      await updateDoc(userDoc, newfields);
+      getUsers();
+    } catch (err) {
+      console.log(err, "update ERRR");
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -232,6 +260,8 @@ function Employee({ users, setUsers }) {
           </div>
         </div>
       ) : null}
+
+      {/* //edit form */}
       {editMode ? (
         <div class="relative z-10">
           <div class="container  mx-auto py-8 absolute">
