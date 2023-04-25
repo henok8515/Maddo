@@ -80,6 +80,7 @@ function Employee({ users, setUsers, noEmployyes }) {
     <div className="w-full">
       {addMode ? (
         <NewEmployee
+          editMode={editMode}
           addMode={addMode}
           setAddMode={setAddMode}
           users={users}
@@ -268,8 +269,8 @@ function Employee({ users, setUsers, noEmployyes }) {
 
       {/* //edit form */}
       {editMode ? (
-        <div class="relative z-10">
-          <div class="container  mx-auto py-8 absolute">
+        <div class="relative z-10 pb-56">
+          <div class="container  mx-auto py-8 ">
             <h1 class="text-2xl font-bold mb-6 text-center">Edit Employee</h1>
             <form
               onSubmit={handleSubmit}

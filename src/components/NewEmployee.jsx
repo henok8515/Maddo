@@ -7,7 +7,7 @@ import { UploadButton } from "react-uploader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function NewEmployee({ setAddMode, setUsers, users }) {
+function NewEmployee({ setAddMode, setUsers, users, editMode }) {
   const [img, setImg] = useState("");
   const [newUser, setNewUser] = useState({
     name: "",
