@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "react-toastify": "^9.1.2",
+    "react-uploader": "^3.19.0",
     "sort-by": "^1.2.0",
     "uuidv4": "^6.2.13"
   },

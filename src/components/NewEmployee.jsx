@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
+import { Uploader } from "uploader"; // Installed by "react-uploader".
+import { UploadButton } from "react-uploader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function NewEmployee({ setAddMode, setUsers, users }) {
+  const [img, setImg] = useState("");
   const [newUser, setNewUser] = useState({
     name: "",
     email: "",
@@ -11,18 +16,31 @@ function NewEmployee({ setAddMode, setUsers, users }) {
     age: "",
     gender: "",
     salary: "",
+    imgUrl: "",
   });
+  console.log(img, "img");
 
   const userCollection = collection(db, "users");
 
   const createUser = async () => {
-    await addDoc(userCollection, newUser);
+    try {
+      await addDoc(userCollection, { ...newUser, imgUrl: img });
+      alert(toast("Wow so easy!"));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
   console.log(users, "users");
+  const uploader = Uploader({
+    apiKey: "free", // Get production API keys from Upload.io
+  });
+
+  // Configuration options: https://upload.io/uploader#customize
+  const options = { multi: true };
 
   const handleSubmit = (e) => {
     // setEmployee((employees) => [...employees, newUser]);
@@ -154,6 +172,19 @@ function NewEmployee({ setAddMode, setUsers, users }) {
               name="salary"
               placeholder="salary"
             />
+          </div>
+          <div class="mb-4">
+            <UploadButton
+              uploader={uploader}
+              options={options}
+              onComplete={(files) =>
+                setImg(files.map((x) => x.fileUrl).join("\n"))
+              }
+            >
+              {({ onClick }) => (
+                <button onClick={onClick}>Upload a file...</button>
+              )}
+            </UploadButton>
           </div>
 
           <button

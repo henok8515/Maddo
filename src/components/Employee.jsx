@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { db } from "../firebase-config";
 
-function Employee({ users, setUsers }) {
+function Employee({ users, setUsers, noEmployyes }) {
   const [addMode, setAddMode] = useState(false);
   // const [employees, setEmployee] = useState([]);
   const [updatedUser, setUpdatedUser] = useState({
@@ -103,7 +103,9 @@ function Employee({ users, setUsers }) {
           <div class="container mx-auto px-4 sm:px-8">
             <div class="py-8">
               <div>
-                <h2 class="text-2xl font-semibold leading-tight">Users</h2>
+                <h2 class="text-2xl font-semibold leading-tight">
+                  {noEmployyes} Employees
+                </h2>
               </div>
               <div class="my-2 flex sm:flex-row flex-col">
                 <div class="flex flex-row mb-1 sm:mb-0">
@@ -221,11 +223,11 @@ function Employee({ users, setUsers }) {
                                     >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-3 w-3 "
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2"
+                                        x="0px"
+                                        y="0px"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 30 30"
                                       >
                                         <path
                                           stroke-linecap="round"
@@ -240,17 +242,13 @@ function Employee({ users, setUsers }) {
                                     >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        class="h-3 w-3"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2"
+                                        x="0px"
+                                        y="0px"
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 30 30"
                                       >
-                                        <path
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                        />
+                                        <path d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"></path>
                                       </svg>
                                     </button>
                                   </div>

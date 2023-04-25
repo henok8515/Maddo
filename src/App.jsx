@@ -20,14 +20,20 @@ function App() {
     };
     getUsers();
   }, []);
-
+  const noEmployyes = users.length;
   return (
     <div className="flex w-full ">
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route
           path="/home"
-          element={<Employee setUsers={setUsers} users={users} />}
+          element={
+            <Employee
+              noEmployyes={noEmployyes}
+              setUsers={setUsers}
+              users={users}
+            />
+          }
         />
       </Routes>
     </div>
