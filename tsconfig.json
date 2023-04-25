@@ -10,8 +10,9 @@
     },
     "experimentalDecorators": true,
     "include": [
-        "app/**/*.ts, tsx"
+      "./src/"
     ],
+  
     "exclude": [
         "node_modules"
     ]
