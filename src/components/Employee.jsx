@@ -35,7 +35,7 @@ function Employee({ users, setUsers }) {
   const handleChange = (e) => {
     setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
   };
-  const updateUser = async (id, user) => {
+  const updateUser = async (id) => {
     const userDoc = doc(db, "users", id);
     const newFields = {
       name: updateUser.name,
