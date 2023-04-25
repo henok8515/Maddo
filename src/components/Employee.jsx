@@ -14,22 +14,23 @@ function Employee({ users, setUsers }) {
     age: "",
     gender: "",
     position: "",
+    salary: "",
   });
 
   const [editMode, setEditMode] = useState(false);
   console.log(updatedUser, "Updated user");
 
   const deleteUser = async (id) => {
-    if (window.confirm("Are you sure you want to delete")) {
-      db.ref()
-        .child(`users/${id}`)
-        .remove((err) => {
-          console.log(err, "delete err");
-        });
-    }
-    // const userDoc = doc(db, "users", id);
-    // await deleteDoc(userDoc);
-    // setUsers([...users]);
+    // if (window.confirm("Are you sure you want to delete")) {
+    //   db.ref()
+    //     .child(`users/${id}`)
+    //     .remove((err) => {
+    //       console.log(err, "delete err");
+    //     });
+    // }
+    const userDoc = doc(db, "users", id);
+    await deleteDoc(userDoc);
+    setUsers([...users]);
   };
   const handleChange = (e) => {
     setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
@@ -113,7 +114,7 @@ function Employee({ users, setUsers }) {
                           Email
                         </th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                          Email
+                          Salary
                         </th>
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                           Settings
@@ -164,7 +165,7 @@ function Employee({ users, setUsers }) {
                                 aria-hidden
                                 class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
                               ></span>
-                              <span class="relative">{user.email}</span>
+                              <span class="relative">{user.salary}ETB</span>
                             </span>
                           </td>
                           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -334,6 +335,24 @@ function Employee({ users, setUsers }) {
                   value={updatedUser.age}
                   name="age"
                   placeholder="age"
+                />
+              </div>
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="password"
+                >
+                  Salary
+                </label>
+                <input
+                  required={true}
+                  onChange={handleChange}
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                  type="number"
+                  id="salary"
+                  value={updatedUser.salary}
+                  name="salary"
+                  placeholder="salary"
                 />
               </div>
 
