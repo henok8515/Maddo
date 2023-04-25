@@ -26,6 +26,8 @@ function Employee({ users, setUsers }) {
   });
 
   const [editMode, setEditMode] = useState(false);
+  const [query, setQuery] = useState("");
+
   console.log(updatedUser, "Updated user");
   const userCollection = collection(db, "users");
 
@@ -119,6 +121,7 @@ function Employee({ users, setUsers }) {
                     </svg>
                   </span>
                   <input
+                    onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search"
                     class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                   />
@@ -150,108 +153,112 @@ function Employee({ users, setUsers }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {users.map((user) => (
-                        <tr>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <div class="flex items-center">
-                              <div class="flex-shrink-0 w-10 h-10">
-                                <img
-                                  class="w-full h-full rounded-full"
-                                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
-                                  alt=""
-                                />
-                              </div>
-                              <div class="ml-3">
-                                <p class="text-gray-900 whitespace-no-wrap">
-                                  {user.name}
-                                </p>
-                              </div>
-                            </div>
-                          </td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                              {user.position}
-                            </p>
-                          </td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p class="text-gray-900 whitespace-no-wrap">
-                              {user.age}
-                            </p>
-                          </td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                              <span
-                                aria-hidden
-                                class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                              ></span>
-                              <span class="relative">{user.email}</span>
-                            </span>
-                          </td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                              <span
-                                aria-hidden
-                                class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                              ></span>
-                              <span class="relative">{user.salary}ETB</span>
-                            </span>
-                          </td>
-                          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                              <span
-                                aria-hidden
-                                class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                              ></span>
-                              <span class="relative">
-                                <div class=" flex">
-                                  <button
-                                    onClick={() => {
-                                      setEditMode(true);
-                                      setUpdatedUser(user);
-                                      updateUser(user.id);
-                                    }}
-                                    class="mr-5 flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      class="h-3 w-3 "
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                    >
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                      />
-                                    </svg>
-                                  </button>
-                                  <button
-                                    onClick={() => deleteUser(user.id)}
-                                    class="flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white"
-                                  >
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      class="h-3 w-3"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                    >
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                      />
-                                    </svg>
-                                  </button>
+                      {users
+                        .filter((user) =>
+                          user.name.toLowerCase().includes(query.toLowerCase())
+                        )
+                        .map((user) => (
+                          <tr>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <div class="flex items-center">
+                                <div class="flex-shrink-0 w-10 h-10">
+                                  <img
+                                    class="w-full h-full rounded-full"
+                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"
+                                    alt=""
+                                  />
                                 </div>
+                                <div class="ml-3">
+                                  <p class="text-gray-900 whitespace-no-wrap">
+                                    {user.name}
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <p class="text-gray-900 whitespace-no-wrap">
+                                {user.position}
+                              </p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <p class="text-gray-900 whitespace-no-wrap">
+                                {user.age}
+                              </p>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  aria-hidden
+                                  class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                                ></span>
+                                <span class="relative">{user.email}</span>
                               </span>
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  aria-hidden
+                                  class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                                ></span>
+                                <span class="relative">{user.salary}ETB</span>
+                              </span>
+                            </td>
+                            <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                              <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span
+                                  aria-hidden
+                                  class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                                ></span>
+                                <span class="relative">
+                                  <div class=" flex">
+                                    <button
+                                      onClick={() => {
+                                        setEditMode(true);
+                                        setUpdatedUser(user);
+                                        updateUser(user.id);
+                                      }}
+                                      class="mr-5 flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white"
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-3 w-3 "
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                      >
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                        />
+                                      </svg>
+                                    </button>
+                                    <button
+                                      onClick={() => deleteUser(user.id)}
+                                      class="flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white"
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-3 w-3"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                      >
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                        />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </span>
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
