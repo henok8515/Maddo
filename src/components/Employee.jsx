@@ -20,9 +20,16 @@ function Employee({ users, setUsers }) {
   console.log(updatedUser, "Updated user");
 
   const deleteUser = async (id) => {
-    const userDoc = doc(db, "users", id);
-    await deleteDoc(userDoc);
-    setUsers([...users]);
+    if (window.confirm("Are you sure you want to delete")) {
+      db.ref()
+        .child(`users/${id}`)
+        .remove((err) => {
+          console.log(err, "delete err");
+        });
+    }
+    // const userDoc = doc(db, "users", id);
+    // await deleteDoc(userDoc);
+    // setUsers([...users]);
   };
   const handleChange = (e) => {
     setUpdatedUser({ ...updatedUser, [e.target.name]: e.target.value });
